@@ -58,10 +58,6 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             return;
         }
 
-        if (client == null) {
-            createGelfClient();
-        }
-
         final GelfMessageBuilder builder = new GelfMessageBuilder(event.getFormattedMessage(), hostName()).timestamp(
                     event.getTimeStamp() / 1000d)
             .level(GelfMessageLevel.fromNumericLevel(toGelfNumericValue(event.getLevel())))
@@ -120,6 +116,22 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         } catch (Exception e) {
             addError("Failed to write log event to the GELF server: " + e.getMessage(), e);
         }
+    }
+
+
+    @Override
+    public void start() {
+
+        super.start();
+        createGelfClient();
+    }
+
+
+    @Override
+    public void stop() {
+
+        super.stop();
+        client.stop();
     }
 
 
