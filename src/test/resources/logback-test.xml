@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+
+<configuration debug="true">
+    <contextName>test</contextName>
+
+    <appender name="gelf" class="de.appelgriepsch.logback.GelfAppender">
+        <server>localhost</server>
+        <port>12201</port>
+        <hostName>localhost</hostName>
+        <protocol>UDP</protocol>
+        <includeSource>true</includeSource>
+        <includeThreadContext>true</includeThreadContext>
+        <includeMDC>true</includeMDC>
+        <queueSize>512</queueSize>
+        <connectTimeout>1000</connectTimeout>
+        <reconnectDelay>500</reconnectDelay>
+        <additionalFields>cow=moo,cat=meow</additionalFields>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d | %5p  | %t | %-55logger{55} | %m %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.graylog2">
+        <level value="DEBUG" />
+        <appender-ref ref="console" />
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="gelf" />
+    </root>
+</configuration>
