@@ -1,5 +1,7 @@
 # GELF Appender for Logback
 
+[![Build Status](https://travis-ci.org/rkcpi/logback-gelf-appender.svg?branch=master)](https://travis-ci.org/rkcpi/logback-gelf-appender)
+
 This logback appender logs messages to a Graylog server. It's using the official [GELF Java client](https://graylog2.github.io/gelfclient/) to connect to the remote server. It's inspired and influenced greatly by the [Log4j2 GELF Appender](http://graylog2.github.io/log4j2-gelf/).
 
 The appender has several configurable properties:
