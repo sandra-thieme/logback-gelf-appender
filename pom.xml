@@ -10,6 +10,7 @@
 
     <name>logback-gelf-appender</name>
     <description>GELF Appender for logback</description>
+    <url>https://github.com/rkcpi/logback-gelf-appender</url>
     <inceptionYear>2016</inceptionYear>
 
     <licenses>
@@ -19,6 +20,13 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Sandra Thieme</name>
+            <email>thieme@synyx.de</email>
+        </developer>
+    </developers>
 
     <scm>
         <connection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</connection>
