@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.appelgriepsch.logback</groupId>
     <artifactId>logback-gelf-appender</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>logback-gelf-appender</name>
     <description>GELF Appender for logback</description>
@@ -32,7 +31,8 @@
         <connection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</connection>
         <developerConnection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</developerConnection>
         <url>https://github.com/rkcpi/logback-gelf-appender</url>
-    </scm>
+      <tag>logback-gelf-appender-1.0</tag>
+  </scm>
 
     <distributionManagement>
         <snapshotRepository>
