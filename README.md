@@ -60,6 +60,16 @@ The appender has several configurable properties:
         </root>
     </configuration>
 
+## Usage with maven
+
+The Logback GELF Appender is available on maven central:
+
+    <dependency>
+      <groupId>de.appelgriepsch.logback</groupId>
+      <artifactId>logback-gelf-appender</artifactId>
+      <version>1.0</version>
+    </dependency>
+
 # License
 
 GELF Appender for Logback
