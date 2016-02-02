@@ -69,7 +69,7 @@ The Logback GELF Appender is available on maven central:
     <dependency>
       <groupId>de.appelgriepsch.logback</groupId>
       <artifactId>logback-gelf-appender</artifactId>
-      <version>1.1</version>
+      <version>1.1.1</version>
     </dependency>
 
 # License
