@@ -1,6 +1,6 @@
 # GELF Appender for Logback
 
-[![Build Status](https://travis-ci.org/rkcpi/logback-gelf-appender.svg?branch=master)](https://travis-ci.org/rkcpi/logback-gelf-appender)
+[![Build Status](https://travis-ci.org/rkcpi/logback-gelf-appender.svg?branch=master)](https://travis-ci.org/rkcpi/logback-gelf-appender) [![Maven Central](https://img.shields.io/maven-central/v/de.appelgriepsch.logback/logback-gelf-appender.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22de.appelgriepsch.logback%22%20AND%20a%3A%22logback-gelf-appender%22)
 
 This logback appender logs messages to a Graylog server. It's using the official [GELF Java client](https://graylog2.github.io/gelfclient/) to connect to the remote server. It's inspired and influenced greatly by the [Log4j2 GELF Appender](http://graylog2.github.io/log4j2-gelf/).
 
@@ -61,16 +61,6 @@ The appender has several configurable properties:
             <appender-ref ref="gelf" />
         </root>
     </configuration>
-
-## Usage with maven
-
-The Logback GELF Appender is available on maven central:
-
-    <dependency>
-      <groupId>de.appelgriepsch.logback</groupId>
-      <artifactId>logback-gelf-appender</artifactId>
-      <version>1.1.1</version>
-    </dependency>
 
 # License
 
