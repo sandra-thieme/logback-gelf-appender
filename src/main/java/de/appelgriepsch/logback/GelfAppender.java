@@ -100,7 +100,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
                     stackTraceElement.getLineNumber());
             }
 
-            builder.additionalField("exceptionClass", thrown.getClass().getCanonicalName());
+            builder.additionalField("exceptionClass", thrown.getClassName());
             builder.additionalField("exceptionMessage", thrown.getMessage());
             builder.additionalField("exceptionStackTrace", stackTraceBuilder.toString());
 
