@@ -36,6 +36,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     private boolean includeSource = true;
     private boolean includeMDC = true;
     private boolean includeStackTrace = true;
+    private boolean includeLevelName = false;
     private int queueSize = 512;
     private int connectTimeout = 1000;
     private int reconnectDelay = 500;
@@ -105,6 +106,10 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             builder.additionalField("exceptionStackTrace", stackTraceBuilder.toString());
 
             builder.fullMessage(event.getFormattedMessage() + "\n\n" + stackTraceBuilder.toString());
+        }
+
+        if (includeLevelName) {
+            builder.additionalField("levelName", event.getLevel().levelStr);
         }
 
         if (!additionalFields.isEmpty()) {
@@ -219,6 +224,12 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     public void setIncludeStackTrace(boolean includeStackTrace) {
 
         this.includeStackTrace = includeStackTrace;
+    }
+
+
+    public void setIncludeLevelName(boolean includeLevelName) {
+
+        this.includeLevelName = includeLevelName;
     }
 
 

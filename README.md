@@ -20,6 +20,8 @@ The appender has several configurable properties:
   * Whether the contents of the [Mapped Diagnostic Context ](http://logback.qos.ch/manual/mdc.html) should be included
 * `includeStackTrace` (default: `true`)
   * Whether a full stack trace should be included
+* `includeLevelName` (default: `false`)
+  * Whether the log level's name should be included, e.g. 'WARN', 'INFO' ...
 * `queueSize` (default: `512`)
   * The size of the internally used queue
 * `connectTimeout` (default: `1000`)
