@@ -1,3 +1,6 @@
 .idea
+.settings
+.project
+.classpath
 logback-gelf-appender.iml
 target
