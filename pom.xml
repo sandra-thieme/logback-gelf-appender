@@ -31,8 +31,8 @@
         <connection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</connection>
         <developerConnection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</developerConnection>
         <url>https://github.com/rkcpi/logback-gelf-appender</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>

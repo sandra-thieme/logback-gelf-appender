@@ -1,27 +1,24 @@
 package de.appelgriepsch.logback;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.spi.IThrowableProxy;
-import ch.qos.logback.classic.spi.StackTraceElementProxy;
-import ch.qos.logback.core.AppenderBase;
+import static de.appelgriepsch.logback.MessageLevelMapping.toGelfNumericValue;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.graylog2.gelfclient.GelfConfiguration;
 import org.graylog2.gelfclient.GelfMessageBuilder;
 import org.graylog2.gelfclient.GelfMessageLevel;
 import org.graylog2.gelfclient.GelfTransports;
 import org.graylog2.gelfclient.transport.GelfTransport;
-
 import org.slf4j.Marker;
 
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
-
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Map;
-
-import static de.appelgriepsch.logback.MessageLevelMapping.toGelfNumericValue;
+import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.IThrowableProxy;
+import ch.qos.logback.core.AppenderBase;
 
 
 /**
@@ -44,6 +41,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     private boolean tcpNoDelay = false;
     private boolean tcpKeepAlive = false;
     private Map<String, Object> additionalFields = new HashMap<>();
+    ThrowableProxyConverter converter = new ThrowableProxyConverter ();
 
     private GelfTransport client;
 
@@ -91,21 +89,12 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         IThrowableProxy thrown = event.getThrowableProxy();
 
         if (includeStackTrace && thrown != null) {
-            final StringBuilder stackTraceBuilder = new StringBuilder();
-
-            for (StackTraceElementProxy stackTraceElementProxy : thrown.getStackTraceElementProxyArray()) {
-                StackTraceElement stackTraceElement = stackTraceElementProxy.getStackTraceElement();
-
-                new Formatter(stackTraceBuilder).format("%s.%s(%s:%d)%n", stackTraceElement.getClassName(),
-                    stackTraceElement.getMethodName(), stackTraceElement.getFileName(),
-                    stackTraceElement.getLineNumber());
-            }
 
             builder.additionalField("exceptionClass", thrown.getClassName());
             builder.additionalField("exceptionMessage", thrown.getMessage());
-            builder.additionalField("exceptionStackTrace", stackTraceBuilder.toString());
+            builder.additionalField("exceptionStackTrace", converter.convert (event));
 
-            builder.fullMessage(event.getFormattedMessage() + "\n\n" + stackTraceBuilder.toString());
+            builder.fullMessage(event.getFormattedMessage() + "\n\n" + converter.convert (event));
         }
 
         if (includeLevelName) {
@@ -129,6 +118,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         super.start();
         createGelfClient();
+        converter.start ();
     }
 
 
@@ -137,6 +127,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         super.stop();
         client.stop();
+        converter.stop ();
     }
 
 
