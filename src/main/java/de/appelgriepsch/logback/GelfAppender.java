@@ -1,24 +1,26 @@
 package de.appelgriepsch.logback;
 
-import static de.appelgriepsch.logback.MessageLevelMapping.toGelfNumericValue;
-
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
+import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.IThrowableProxy;
+import ch.qos.logback.core.AppenderBase;
 
 import org.graylog2.gelfclient.GelfConfiguration;
 import org.graylog2.gelfclient.GelfMessageBuilder;
 import org.graylog2.gelfclient.GelfMessageLevel;
 import org.graylog2.gelfclient.GelfTransports;
 import org.graylog2.gelfclient.transport.GelfTransport;
+
 import org.slf4j.Marker;
 
-import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.classic.spi.IThrowableProxy;
-import ch.qos.logback.core.AppenderBase;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static de.appelgriepsch.logback.MessageLevelMapping.toGelfNumericValue;
 
 
 /**
@@ -41,7 +43,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     private boolean tcpNoDelay = false;
     private boolean tcpKeepAlive = false;
     private Map<String, Object> additionalFields = new HashMap<>();
-    ThrowableProxyConverter converter = new ThrowableProxyConverter ();
+    private ThrowableProxyConverter throwableConverter = new ThrowableProxyConverter();
 
     private GelfTransport client;
 
@@ -59,9 +61,9 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         final GelfMessageBuilder builder = new GelfMessageBuilder(event.getFormattedMessage(), hostName()).timestamp(
                     event.getTimeStamp() / 1000d)
-            .level(GelfMessageLevel.fromNumericLevel(toGelfNumericValue(event.getLevel())))
-            .additionalField("loggerName", event.getLoggerName())
-            .additionalField("threadName", event.getThreadName());
+                .level(GelfMessageLevel.fromNumericLevel(toGelfNumericValue(event.getLevel())))
+                .additionalField("loggerName", event.getLoggerName())
+                .additionalField("threadName", event.getThreadName());
 
         final Marker marker = event.getMarker();
 
@@ -89,12 +91,13 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         IThrowableProxy thrown = event.getThrowableProxy();
 
         if (includeStackTrace && thrown != null) {
+            String convertedThrowable = throwableConverter.convert(event);
 
             builder.additionalField("exceptionClass", thrown.getClassName());
             builder.additionalField("exceptionMessage", thrown.getMessage());
-            builder.additionalField("exceptionStackTrace", converter.convert (event));
+            builder.additionalField("exceptionStackTrace", convertedThrowable);
 
-            builder.fullMessage(event.getFormattedMessage() + "\n\n" + converter.convert (event));
+            builder.fullMessage(event.getFormattedMessage() + "\n\n" + convertedThrowable);
         }
 
         if (includeLevelName) {
@@ -118,7 +121,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         super.start();
         createGelfClient();
-        converter.start ();
+        throwableConverter.start();
     }
 
 
@@ -127,7 +130,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         super.stop();
         client.stop();
-        converter.stop ();
+        throwableConverter.stop();
     }
 
 
@@ -151,7 +154,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
-    public GelfConfiguration getGelfConfiguration() {
+    private GelfConfiguration getGelfConfiguration() {
 
         final InetSocketAddress serverAddress = new InetSocketAddress(server, port);
         final GelfTransports gelfProtocol = GelfTransports.valueOf(protocol().toUpperCase());
