@@ -1,9 +1,12 @@
 package de.appelgriepsch.logback;
 
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
+import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.AppenderBase;
+import ch.qos.logback.core.Layout;
 
 import org.graylog2.gelfclient.GelfConfiguration;
 import org.graylog2.gelfclient.GelfMessageBuilder;
@@ -44,12 +47,19 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     private boolean tcpKeepAlive = false;
     private Map<String, Object> additionalFields = new HashMap<>();
     private ThrowableProxyConverter throwableConverter = new ThrowableProxyConverter();
+    private Layout<ILoggingEvent> layout;
 
     private GelfTransport client;
 
     public GelfAppender() {
 
         super();
+
+        PatternLayoutEncoder patternLayoutEncoder = new PatternLayoutEncoder();
+        patternLayoutEncoder.setPattern("%m %n");
+
+        Layout<ILoggingEvent> layout = patternLayoutEncoder.getLayout();
+        this.layout = layout;
     }
 
     @Override
@@ -59,7 +69,13 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             return;
         }
 
-        final GelfMessageBuilder builder = new GelfMessageBuilder(event.getFormattedMessage(), hostName()).timestamp(
+        // create a copy of the logging event to avoid passing exception stacktraces to GELF's short_message field
+        LoggingEvent copy = new LoggingEvent();
+        copy.setMessage(event.getMessage());
+        copy.setLevel(event.getLevel());
+        copy.setArgumentArray(event.getArgumentArray());
+
+        final GelfMessageBuilder builder = new GelfMessageBuilder(this.layout.doLayout(copy), hostName()).timestamp(
                     event.getTimeStamp() / 1000d)
                 .level(GelfMessageLevel.fromNumericLevel(toGelfNumericValue(event.getLevel())))
                 .additionalField("loggerName", event.getLoggerName())
@@ -275,5 +291,11 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         } catch (Exception e) {
             addWarn("Failed to read additional fields: " + e.getMessage(), e);
         }
+    }
+
+
+    public void setLayout(Layout<ILoggingEvent> layout) {
+
+        this.layout = layout;
     }
 }

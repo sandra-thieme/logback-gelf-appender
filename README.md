@@ -34,10 +34,8 @@ The appender has several configurable properties:
   * Whether Nagle's algorithm should be used for TCP connections
 * `tcpKeepAlive` (default: `false`)
   * Whether to try keeping alive TCP connections.
-* `filter`
-  * A [Filter](http://logback.qos.ch/manual/filters.html) to determine if the event should be handled by this Appender
-* `layout` (default: `"%m%n"`)
-  * The [Layout](http://logback.qos.ch/manual/layouts.html) to use to format the LogEvent
+* `layout` (default: `"%m"`)
+  * The [Layout](http://logback.qos.ch/manual/layouts.html) to use to format the LogEvent; the resulting string will be used as GELF's `short_message` (exception stacktraces are not included in this message)
 * `additionalFields`
   * Comma-delimited list of key=value pairs to be included in every message
 
@@ -56,6 +54,9 @@ The appender has several configurable properties:
             <connectTimeout>1000</connectTimeout>
             <reconnectDelay>500</reconnectDelay>
             <additionalFields>cow=moo,cat=meow</additionalFields>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%.-25m</pattern>
+            </layout>
         </appender>
         <root level="DEBUG">
             <appender-ref ref="gelf" />
