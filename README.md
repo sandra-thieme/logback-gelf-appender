@@ -48,7 +48,6 @@ The appender has several configurable properties:
             <hostName>localhost</hostName>
             <protocol>UDP</protocol>
             <includeSource>true</includeSource>
-            <includeThreadContext>true</includeThreadContext>
             <includeMDC>true</includeMDC>
             <queueSize>512</queueSize>
             <connectTimeout>1000</connectTimeout>
