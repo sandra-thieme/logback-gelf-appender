@@ -201,9 +201,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public String getServer() {
+
+        return server;
+    }
+
+
     public void setPort(int port) {
 
         this.port = port;
+    }
+
+
+    public int getPort() {
+
+        return port;
     }
 
 
@@ -213,9 +225,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public String getHostName() {
+
+        return hostName;
+    }
+
+
     public void setProtocol(String protocol) {
 
         this.protocol = protocol;
+    }
+
+
+    public String getProtocol() {
+
+        return protocol;
     }
 
 
@@ -225,9 +249,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public boolean isIncludeSource() {
+
+        return includeSource;
+    }
+
+
     public void setIncludeMDC(boolean includeMDC) {
 
         this.includeMDC = includeMDC;
+    }
+
+
+    public boolean isIncludeMDC() {
+
+        return includeMDC;
     }
 
 
@@ -237,9 +273,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public boolean isIncludeStackTrace() {
+
+        return includeStackTrace;
+    }
+
+
     public void setIncludeLevelName(boolean includeLevelName) {
 
         this.includeLevelName = includeLevelName;
+    }
+
+
+    public boolean isIncludeLevelName() {
+
+        return includeLevelName;
     }
 
 
@@ -249,9 +297,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public int getQueueSize() {
+
+        return queueSize;
+    }
+
+
     public void setConnectTimeout(int connectTimeout) {
 
         this.connectTimeout = connectTimeout;
+    }
+
+
+    public int getConnectTimeout() {
+
+        return connectTimeout;
     }
 
 
@@ -261,9 +321,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public int getReconnectDelay() {
+
+        return reconnectDelay;
+    }
+
+
     public void setSendBufferSize(int sendBufferSize) {
 
         this.sendBufferSize = sendBufferSize;
+    }
+
+
+    public int getSendBufferSize() {
+
+        return sendBufferSize;
     }
 
 
@@ -273,9 +345,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public boolean isTcpNoDelay() {
+
+        return tcpNoDelay;
+    }
+
+
     public void setTcpKeepAlive(boolean tcpKeepAlive) {
 
         this.tcpKeepAlive = tcpKeepAlive;
+    }
+
+
+    public boolean isTcpKeepAlive() {
+
+        return tcpKeepAlive;
     }
 
 
@@ -303,8 +387,21 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         }
     }
 
+
+    public Map<String, Object> getAdditionalFields() {
+
+        return additionalFields;
+    }
+
+
     public void setLayout(Layout<ILoggingEvent> layout) {
 
         this.layout = layout;
+    }
+
+
+    public Layout<ILoggingEvent> getLayout() {
+
+        return layout;
     }
 }
