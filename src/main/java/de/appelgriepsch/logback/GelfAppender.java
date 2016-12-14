@@ -294,6 +294,15 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     }
 
 
+    public void addAdditionalField(String key, String value) {
+
+        try {
+            this.additionalFields.put(key, value);
+        } catch (Exception e) {
+            addWarn("Failed to add additional field: " + e.getMessage(), e);
+        }
+    }
+
     public void setLayout(Layout<ILoggingEvent> layout) {
 
         this.layout = layout;
