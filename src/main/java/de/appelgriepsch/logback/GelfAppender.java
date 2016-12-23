@@ -1,6 +1,6 @@
 package de.appelgriepsch.logback;
 
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
@@ -50,17 +50,6 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     private Layout<ILoggingEvent> layout;
 
     private GelfTransport client;
-
-    public GelfAppender() {
-
-        super();
-
-        PatternLayoutEncoder patternLayoutEncoder = new PatternLayoutEncoder();
-        patternLayoutEncoder.setPattern("%m %n");
-
-        Layout<ILoggingEvent> layout = patternLayoutEncoder.getLayout();
-        this.layout = layout;
-    }
 
     @Override
     protected void append(ILoggingEvent event) {
@@ -134,10 +123,16 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
     @Override
     public void start() {
-
-        super.start();
+        if (this.layout == null) {
+            PatternLayout patternLayout = new PatternLayout();
+            patternLayout.setContext(context);
+            patternLayout.setPattern("%m %n");
+            patternLayout.start();
+            this.layout = patternLayout;
+        }
         createGelfClient();
         throwableConverter.start();
+        super.start();
     }
 
 

@@ -34,7 +34,7 @@ The appender has several configurable properties:
   * Whether Nagle's algorithm should be used for TCP connections
 * `tcpKeepAlive` (default: `false`)
   * Whether to try keeping alive TCP connections.
-* `layout` (default: `"%m"`)
+* `layout` (default: `"%m %n"`)
   * The [Layout](http://logback.qos.ch/manual/layouts.html) to use to format the LogEvent; the resulting string will be used as GELF's `short_message` (exception stacktraces are not included in this message)
 * `additionalFields`
   * Comma-delimited list of key=value pairs to be included in every message
