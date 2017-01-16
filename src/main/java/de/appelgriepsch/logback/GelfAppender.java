@@ -103,6 +103,8 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             builder.additionalField("exceptionStackTrace", convertedThrowable);
 
             builder.fullMessage(event.getFormattedMessage() + "\n\n" + convertedThrowable);
+        } else {
+            builder.fullMessage(event.getFormattedMessage());
         }
 
         if (includeLevelName) {
