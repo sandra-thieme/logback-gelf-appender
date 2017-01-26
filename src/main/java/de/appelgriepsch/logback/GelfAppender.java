@@ -115,10 +115,8 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             builder.additionalFields(additionalFields);
         }
 
-        try {
-            client.send(builder.build());
-        } catch (Exception e) {
-            addError("Failed to write log event to the GELF server: " + e.getMessage(), e);
+        if(!client.trySend(builder.build())) {
+            addError("Failed to write log event to the GELF server using trySend");
         }
     }
 
