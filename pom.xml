@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.appelgriepsch.logback</groupId>
     <artifactId>logback-gelf-appender</artifactId>
     <packaging>jar</packaging>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3.0</version>
 
     <name>logback-gelf-appender</name>
     <description>GELF Appender for logback</description>
@@ -31,18 +32,20 @@
         <connection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</connection>
         <developerConnection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</developerConnection>
         <url>https://github.com/rkcpi/logback-gelf-appender</url>
-      <tag>HEAD</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>remote-libs-release-deploy</id>
+            <name>artifactory.afrozaar.com-releases</name>
+            <url>https://maven-repository.afrozaar.com/artifactory/libs-release-local</url>
         </repository>
+        <snapshotRepository>
+            <id>remote-libs-snapshot-deploy</id>
+            <name>artifactory.afrozaar.com-snapshots</name>
+            <url>https://maven-repository.afrozaar.com/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
