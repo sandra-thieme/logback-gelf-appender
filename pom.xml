@@ -5,7 +5,7 @@
     <groupId>de.appelgriepsch.logback</groupId>
     <artifactId>logback-gelf-appender</artifactId>
     <packaging>jar</packaging>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.3.1</version>
 
     <name>logback-gelf-appender</name>
     <description>GELF Appender for logback</description>
@@ -31,7 +31,7 @@
         <connection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</connection>
         <developerConnection>scm:git:git@github.com:rkcpi/logback-gelf-appender.git</developerConnection>
         <url>https://github.com/rkcpi/logback-gelf-appender</url>
-      <tag>HEAD</tag>
+      <tag>logback-gelf-appender-1.3.1</tag>
     </scm>
 
     <distributionManagement>
