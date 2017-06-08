@@ -84,7 +84,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         StackTraceElement[] callerData = event.getCallerData();
 
-        if (includeSource && event.hasCallerData()) {
+        if (includeSource && event.hasCallerData() && callerData.length > 0) {
             StackTraceElement source = callerData[0];
 
             builder.additionalField("sourceFileName", source.getFileName());
