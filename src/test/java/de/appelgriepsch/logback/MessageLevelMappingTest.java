@@ -2,24 +2,27 @@ package de.appelgriepsch.logback;
 
 import ch.qos.logback.classic.Level;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static de.appelgriepsch.logback.MessageLevelMapping.toGelfNumericValue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
  * @author  Sandra Thieme - thieme@synyx.de
  */
-public class MessageLevelMappingTest {
+class MessageLevelMappingTest {
 
     @Test
-    public void mapValues() {
+    void mapValues() {
 
-        Assert.assertEquals(0, MessageLevelMapping.toGelfNumericValue(Level.OFF));
-        Assert.assertEquals(3, MessageLevelMapping.toGelfNumericValue(Level.ERROR));
-        Assert.assertEquals(4, MessageLevelMapping.toGelfNumericValue(Level.WARN));
-        Assert.assertEquals(6, MessageLevelMapping.toGelfNumericValue(Level.INFO));
-        Assert.assertEquals(7, MessageLevelMapping.toGelfNumericValue(Level.DEBUG));
-        Assert.assertEquals(7, MessageLevelMapping.toGelfNumericValue(Level.TRACE));
-        Assert.assertEquals(7, MessageLevelMapping.toGelfNumericValue(Level.ALL));
+        assertEquals(0, toGelfNumericValue(Level.OFF));
+        assertEquals(3, toGelfNumericValue(Level.ERROR));
+        assertEquals(4, toGelfNumericValue(Level.WARN));
+        assertEquals(6, toGelfNumericValue(Level.INFO));
+        assertEquals(7, toGelfNumericValue(Level.DEBUG));
+        assertEquals(7, toGelfNumericValue(Level.TRACE));
+        assertEquals(7, toGelfNumericValue(Level.ALL));
     }
 }

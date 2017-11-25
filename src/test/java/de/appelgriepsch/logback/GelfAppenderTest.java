@@ -1,6 +1,6 @@
 package de.appelgriepsch.logback;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import org.slf4j.MarkerFactory;
 /**
  * @author  Sandra Thieme - thieme@synyx.de
  */
-public class GelfAppenderTest {
+class GelfAppenderTest {
 
     @Test
-    public void testLog() {
+    void testLog() {
 
         Logger logger = LoggerFactory.getLogger("test");
         logger.info("abcdefghijklmnopqrstuvwxyz1234567890");
@@ -22,7 +22,7 @@ public class GelfAppenderTest {
 
 
     @Test
-    public void testMarker() {
+    void testMarker() {
 
         Logger logger = LoggerFactory.getLogger("test");
         final Marker marker = MarkerFactory.getMarker("TEST");
@@ -31,7 +31,7 @@ public class GelfAppenderTest {
 
 
     @Test
-    public void testException() {
+    void testException() {
 
         final Logger logger = LoggerFactory.getLogger("test");
 
@@ -45,7 +45,7 @@ public class GelfAppenderTest {
 
 
     @Test
-    public void testExceptionWithCause() {
+    void testExceptionWithCause() {
 
         final Logger logger = LoggerFactory.getLogger("test");
 
