@@ -1,8 +1,8 @@
 sudo: false
 language: java
 jdk:
-  - oraclejdk7
   - oraclejdk8
+  - oraclejdk9
 script: ./mvnw verify -B
 cache:
   directories:
