@@ -66,7 +66,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         copy.setLoggerName(event.getLoggerName());
         copy.setThreadName(event.getThreadName());
         copy.setTimeStamp(event.getTimeStamp());
-        copy.setMDCPropertyMap(copy.getMDCPropertyMap());
+        copy.setMDCPropertyMap(event.getMDCPropertyMap());
 
         final GelfMessageBuilder builder = new GelfMessageBuilder(this.layout.doLayout(copy), hostName()).timestamp(
                     event.getTimeStamp() / 1000d)
