@@ -153,9 +153,9 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
 
         if (hostName == null || hostName.trim().isEmpty()) {
             try {
-                return InetAddress.getLocalHost().getHostName();
+                hostName = InetAddress.getLocalHost().getHostName();
             } catch (UnknownHostException e) {
-                return "localhost";
+                hostName = "localhost";
             }
         }
 
