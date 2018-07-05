@@ -81,7 +81,9 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         }
 
         if (includeMDC) {
-            this.additionalFields.putAll(event.getMDCPropertyMap());
+            for (Map.Entry<String, String> entry : event.getMDCPropertyMap().entrySet()) {
+                builder.additionalField(entry.getKey(), entry.getValue());
+            }
         }
 
         final StackTraceElement[] callerData = event.getCallerData();
