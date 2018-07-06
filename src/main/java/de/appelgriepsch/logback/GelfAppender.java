@@ -45,8 +45,8 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
     private int sendBufferSize = -1;
     private boolean tcpNoDelay = false;
     private boolean tcpKeepAlive = false;
-    private Map<String, Object> additionalFields = new HashMap<>();
-    private ThrowableProxyConverter throwableConverter = new ThrowableProxyConverter();
+    private final Map<String, Object> additionalFields = new HashMap<>();
+    private final ThrowableProxyConverter throwableConverter = new ThrowableProxyConverter();
     private Layout<ILoggingEvent> layout;
 
     private GelfTransport client;
@@ -68,7 +68,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         copy.setTimeStamp(event.getTimeStamp());
         copy.setMDCPropertyMap(event.getMDCPropertyMap());
 
-        final GelfMessageBuilder builder = new GelfMessageBuilder(this.layout.doLayout(copy), hostName()).timestamp(
+        final GelfMessageBuilder builder = new GelfMessageBuilder(this.layout.doLayout(copy), hostName).timestamp(
                     event.getTimeStamp() / 1000d)
                 .level(GelfMessageLevel.fromNumericLevel(toGelfNumericValue(event.getLevel())))
                 .additionalField("loggerName", event.getLoggerName())
@@ -86,7 +86,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             }
         }
 
-        StackTraceElement[] callerData = event.getCallerData();
+        final StackTraceElement[] callerData = event.getCallerData();
 
         if (includeSource && event.hasCallerData() && callerData.length > 0) {
             StackTraceElement source = callerData[0];
@@ -97,7 +97,7 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             builder.additionalField("sourceLineNumber", source.getLineNumber());
         }
 
-        IThrowableProxy thrown = event.getThrowableProxy();
+        final IThrowableProxy thrown = event.getThrowableProxy();
 
         if (includeStackTrace && thrown != null) {
             String convertedThrowable = throwableConverter.convert(event);
@@ -134,6 +134,13 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
             patternLayout.start();
             this.layout = patternLayout;
         }
+        if (this.hostName == null || this.hostName.trim().isEmpty()) {
+            try {
+                this.hostName = InetAddress.getLocalHost().getHostName();
+            } catch (UnknownHostException e) {
+                this.hostName = "localhost";
+            }
+        }
         createGelfClient();
         throwableConverter.start();
         super.start();
@@ -147,21 +154,6 @@ public class GelfAppender extends AppenderBase<ILoggingEvent> {
         client.stop();
         throwableConverter.stop();
     }
-
-
-    private String hostName() {
-
-        if (hostName == null || hostName.trim().isEmpty()) {
-            try {
-                return InetAddress.getLocalHost().getHostName();
-            } catch (UnknownHostException e) {
-                return "localhost";
-            }
-        }
-
-        return hostName;
-    }
-
 
     private void createGelfClient() {
 
