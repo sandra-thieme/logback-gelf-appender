@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.graylog2</groupId>
             <artifactId>gelfclient</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
 
         <dependency>
